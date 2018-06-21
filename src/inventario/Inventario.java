@@ -5,6 +5,9 @@
  */
 package inventario;
 
+import javax.swing.JButton;
+import vista.Consulta;
+
 /**
  *
  * @author María Lourdes
@@ -16,6 +19,5 @@ public class Inventario {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+   
     }
-    
-}

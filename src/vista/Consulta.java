@@ -33,15 +33,15 @@ import static sun.management.snmp.jvminstr.JvmThreadInstanceEntryImpl.ThreadStat
  */
 public class Consulta extends JFrame {
 
-    public JLabel lblCodigo, lblMarca, lblStock, lblExistencia;
-    public JTextField codigo, descripcion, stock;
-    public JComboBox marca;
-    ButtonGroup existencia = new ButtonGroup();
+    public JLabel lblAfp, lblNombre, lblApellidos, lblEstado;
+    public JTextField afp, nombre, apellidos,edad;
+    public JComboBox profesion;
+    ButtonGroup estado = new ButtonGroup();
     public JRadioButton no;
     public JRadioButton si;
     public JTable resultados;
     public JPanel table;
-    public JButton buscar, eliminar, insertar, limpiar, actualizar;
+    public JButton eliminar, insertar, limpiar, actualizar;
     private static final int ANCHOC = 130, ALTOC = 30;
     DefaultTableModel tm;
 
@@ -53,15 +53,15 @@ public class Consulta extends JFrame {
         formulario();
         llenarTabla();
         Container container = getContentPane();
-        container.add(lblCodigo);
-        container.add(lblMarca);
-        container.add(lblStock);
-        container.add(lblExistencia);
-        container.add(codigo);
-        container.add(marca);
+        container.add(lblAfp);
+        container.add(lblNombre);
+        container.add(lblApellidos);
+        container.add(lblEstado);
+        container.add(afp);
+        container.add(profesion);
         container.add(si);
         container.add(no);
-        container.add(buscar);
+        container.add(edad);
         container.add(insertar);
         container.add(actualizar);
         container.add(eliminar);
@@ -72,42 +72,41 @@ public class Consulta extends JFrame {
     }
 
     public final void agregarLabels() {
-        lblCodigo = new JLabel("codigo");
-        lblMarca = new JLabel("Marca");
-        lblStock = new JLabel("Stock");
-        lblExistencia = new JLabel("Stock en tienda");
-        lblCodigo.setBounds(10, 10, ANCHOC, ALTOC);
-        lblMarca.setBounds(10, 60, ANCHOC, ALTOC);
-        lblStock.setBounds(10, 100, ANCHOC, ALTOC);
-        lblExistencia.setBounds(10, 140, ANCHOC, ALTOC);
+        lblAfp = new JLabel("N° AFP");
+        lblNombre = new JLabel("Nombres");
+        lblApellidos = new JLabel("Apelllidos");
+        lblEstado = new JLabel("Estado");
+        lblAfp.setBounds(10, 10, ANCHOC, ALTOC);
+        lblNombre.setBounds(10, 60, ANCHOC, ALTOC);
+        lblApellidos.setBounds(10, 100, ANCHOC, ALTOC);
+        lblEstado.setBounds(10, 140, ANCHOC, ALTOC);
 
     }
 
     public final void formulario() {
-        codigo = new JTextField();
-        marca = new JComboBox();
-        stock = new JTextField();
+        afp = new JTextField();
+        profesion = new JComboBox();
+        apellidos = new JTextField();
         si = new JRadioButton("si", true);
         no = new JRadioButton("no");
         resultados = new JTable();
-        buscar = new JButton("Buscar");
         insertar = new JButton("Insertar");
         eliminar = new JButton("Eliminar");
         actualizar = new JButton("Actualizar");
         limpiar = new JButton("Limpiar");
 
         table = new JPanel();
-        marca.addItem("FRAM");
-        marca.addItem("WIX");
-        marca.addItem("Luber Finer");
-        marca.addItem("OSK");
-        existencia = new ButtonGroup();
-        existencia.add(si);
-        existencia.add(no);
+        profesion.addItem("FRAM");
+        profesion.addItem("WIX");
+        profesion.addItem("Luber Finer");
+        profesion.addItem("OSK");
+        estado = new ButtonGroup();
+        estado.add(si);
+        estado.add(no);
 
-        codigo.setBounds(140, 10, ANCHOC, ALTOC);
-        marca.setBounds(140, 60, ANCHOC, ALTOC);
-        stock.setBounds(140, 100, ANCHOC, ALTOC);
+        afp.setBounds(140, 10, ANCHOC, ALTOC);
+        profesion.setBounds(140, 60, ANCHOC, ALTOC);
+        apellidos.setBounds(140, 100, ANCHOC, ALTOC);
         si.setBounds(140, 50, ANCHOC, ALTOC);
         no.setBounds(210, 140, ANCHOC, ALTOC);
         resultados = new JTable();
@@ -149,11 +148,9 @@ public class Consulta extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 FiltroDao fd = new FiltroDao();
-                Filtro f = new Filtro(codigo.getText(), marca.getSelectedItem().toString()),
-                        Integer
-                .parseInt(stock.getText())
-                ,true);
-                        if (no.isSelected()) {
+                Filtro f = new Filtro(afp.getText(), profesion.getSelectedItem().toString(), Integer
+                        .parseInt(apellidos.getText()), true);
+                if (no.isSelected()) {
                     f.setExistencia(false);
                 }
                 if (fd.create(f)) {
@@ -171,9 +168,9 @@ public class Consulta extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 FiltroDao fd = new FiltroDao();
-                Filtro f = new Filtro(codigo.getText(), marca.getSelectedItem().toString()),
+                Filtro f = new Filtro(afp.getText(), profesion.getSelectedItem().toString(),
                         Integer
-                .parseInt(stock.getText())
+                .parseInt(apellidos.getText())
                 ,true);
             if (no.isSelected()) {
                     f.setExistencia(false);
@@ -192,7 +189,7 @@ public class Consulta extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 FiltroDao fd = new FiltroDao();
-                if (fd.delete(codigo.getText())) {
+                if (fd.delete(afp.getText())) {
                     JOptionPane.showMessageDialog(null, "Filtro Eliminado con exito");
                     limpiarCampos();
                     llenarTabla();
@@ -201,27 +198,7 @@ public class Consulta extends JFrame {
                 }
             }
         });
-        buscar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                FiltroDao fd = new FiltroDao();
-                Filtro f = fd.read(codigo.getText());
-                if (f == null) {
-                    JOptionPane.showMessageDialog(null, "El filtro buscado no se ha encontrado");
-                } else {
-                    codigo.setText(f.getCodigo());
-                    marca.setSelectedItem(f.getMarca());
-                    stock.setText(Integer.toString(f.getStock()));
-                    if (f.isExistencia()) {
-                        si.setSelected(true);
-                    } else {
-                        no.setSelected(true);
-                    }
-                }
-            }
-
-        });
-
+        
         limpiar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -231,19 +208,18 @@ public class Consulta extends JFrame {
     }
 
     public void limpiarCampos() {
-        codigo.setText("");
-        marca.setSelectedItem("FRAM");
-        stock.setText("");
+        afp.setText("");
+        profesion.setSelectedItem("FRAM");
+        apellidos.setText("");
     }
 
     public static void main(String[] args) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
+        java.awt.EventQueue.invokeLater(new Runnable(){
             @Override
             public void run() {
-                new Consulta().setVisible(true);
+                     new Consulta().setVisible(true);
             }
         });
     }
 
 }
-

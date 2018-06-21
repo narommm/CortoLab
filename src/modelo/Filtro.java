@@ -10,11 +10,11 @@ package modelo;
  * @author María Lourdes
  */
 public class Filtro {
-    private int id;
-    private String codigo;
-    private String marca;
-    private int stock;
-    private boolean existencia;
+    private String afp;
+    private String nombre;
+    private String profesion;
+    private int edad;
+    private boolean estado;
     
     public Filtro(){}
 
@@ -22,65 +22,64 @@ public class Filtro {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    public int getId() {
-        return id;
+    public String getAfp() {
+        return afp;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setAfp(String afp) {
+        this.afp = afp;
     }
 
-    public String getCodigo() {
-        return codigo;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
-    public String getMarca() {
-        return marca;
+    public String getProfesion() {
+        return profesion;
     }
 
-    public void setMarca(String marca) {
-        this.marca = marca;
+    public void setProfesion(String profesion) {
+        this.profesion = profesion;
     }
 
-    public int getStock() {
-        return stock;
+    public int getEdad() {
+        return edad;
     }
 
-    public void setStock(int stock) {
-        this.stock = stock;
+    public void setEdad(int edad) {
+        this.edad = edad;
     }
 
-    public boolean isExistencia() {
-        return existencia;
+    public boolean getEstado() {
+        return estado;
     }
 
-    public void setExistencia(boolean existencia) {
-        this.existencia = existencia;
+    public void setEstado(boolean estado) {
+        this.estado = estado;
     }
-
-    public Filtro(int id, String codigo, String marca, int stock, boolean existencia) {
-        this.id = id;
-        this.codigo = codigo;
-        this.marca = marca;
-        this.stock = stock;
-        this.existencia = existencia;
+  
+    public Filtro(String afp, String nombre, String profesion, int edad, boolean estado) {
+        this.afp = afp;
+        this.nombre = nombre;
+        this.profesion = profesion;
+        this.edad = edad;
+        this.estado = estado;
     }
     
-
-    public Filtro(String codigo, String marca, int stock, boolean existencia) {
-        this.codigo = codigo;
-        this.marca = marca;
-        this.stock = stock;
-        this.existencia = existencia;
+    public Filtro(String nombre, String profesion, int edad, boolean estado) {
+        this.nombre = nombre;
+        this.profesion = profesion;
+        this.edad = edad;
+        this.estado = estado;
     }
 
-    public Filtro(String marca, int stock, boolean existencia) {
-        this.marca = marca;
-        this.stock = stock;
-        this.existencia = existencia;
+    public Filtro(String profesion, int edad, boolean estado) {
+        this.profesion = profesion;
+        this.edad = edad;
+        this.estado = estado;
     }
 }
