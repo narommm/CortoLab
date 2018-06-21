@@ -40,9 +40,11 @@ public class FiltroDao implements metodos<Filtro> {
         PreparedStatement ps;
         try {
             ps = con.getCnx().prepareStatement(SQL_INSERT);
-            ps.setString(1, g.getCodigo());
-            ps.setString(2, g.getMarca());
-            ps.setInt(3, g.getStock());
+            ps.setString(1, g.getAfp());
+            ps.setString(2, g.getNombre());
+            ps.setString(3, g.getApellido());
+            ps.setString(4, g.getProfesion());
+            ps.setInt(5, g.getEdad());
             ps.setBoolean(4, true);
             if (ps.executeUpdate() > 0) {
                 return true;
@@ -78,13 +80,12 @@ public class FiltroDao implements metodos<Filtro> {
     public boolean update(Filtro c) {
         PreparedStatement ps;
         try {
-            System.out.println(c.getCodigo());
+            System.out.println(c.getAfp());
             ps = con.getCnx().prepareStatement(SQL_UPDATE);
-            ps.setString(1, c.getMarca());
-            ps.setInt(2, c.getStock());
-            ps.setBoolean(3, c.isExistencia());
-            ps.setString(4, c.getCodigo());
-            if (ps.executeUpdate() > 0) {
+            ps.setString(1, c.getProfesion());
+            ps.setInt(2, c.getEdad());
+            ps.setBoolean(3, c.getEstado());
+             if (ps.executeUpdate() > 0) {
                 return true;
             }
 
@@ -107,7 +108,7 @@ public class FiltroDao implements metodos<Filtro> {
             ps.setString(1, key.toString());
             rs = ps.executeQuery();
             while (rs.next()) {
-                f = new Filtro(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getBoolean(5));
+                f = new Filtro(rs.getString(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getBoolean(5));
             }
             rs.close();
         } catch (SQLException ex) {
@@ -129,7 +130,7 @@ public class FiltroDao implements metodos<Filtro> {
             s = con.getCnx().prepareStatement(SQL_READALL);
             rs = s.executeQuery(SQL_READALL);
             while (rs.next()) {
-                all.add(new Filtro(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getBoolean(5)));
+                all.add(new Filtro(rs.getString(1), rs.getString(2), rs.getString(3), rs.getInt(4), rs.getBoolean(5)));
 
             }
             rs.close();
