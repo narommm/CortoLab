@@ -33,7 +33,7 @@ import static sun.management.snmp.jvminstr.JvmThreadInstanceEntryImpl.ThreadStat
  */
 public class Consulta extends JFrame {
 
-    public JLabel lblAfp, lblNombre, lblApellidos, lblEstado;
+    public JLabel lblAfp, lblNombre, lblApellidos, lblEstado, lblProfesion, lblEdad;
     public JTextField afp, nombre, apellidos,edad;
     public JComboBox profesion;
     ButtonGroup estado = new ButtonGroup();
@@ -76,10 +76,14 @@ public class Consulta extends JFrame {
         lblNombre = new JLabel("Nombres");
         lblApellidos = new JLabel("Apelllidos");
         lblEstado = new JLabel("Estado");
+        lblProfesion = new JLabel("Profesion");
+        lblEdad= new JLabel ("Edad");
         lblAfp.setBounds(10, 10, ANCHOC, ALTOC);
-        lblNombre.setBounds(10, 60, ANCHOC, ALTOC);
-        lblApellidos.setBounds(10, 100, ANCHOC, ALTOC);
+        lblNombre.setBounds(10, 25, ANCHOC, ALTOC);
+        lblApellidos.setBounds(200, 25, ANCHOC, ALTOC);
         lblEstado.setBounds(10, 140, ANCHOC, ALTOC);
+        lblProfesion.setBounds(10, 80, ANCHOC, ALTOC);
+        lblEdad.setBounds(10, 50, ANCHOC, ALTOC);
 
     }
 
@@ -94,23 +98,21 @@ public class Consulta extends JFrame {
         eliminar = new JButton("Eliminar");
         actualizar = new JButton("Actualizar");
         vaciar = new JButton("Vaciar");
-
         table = new JPanel();
-        profesion.addItem("FRAM");
-        profesion.addItem("WIX");
-        profesion.addItem("Luber Finer");
-        profesion.addItem("OSK");
+        profesion.addItem("Ingeniero");
+        profesion.addItem("Doctor");
+        profesion.addItem("Profesor");
+        profesion.addItem("Licenciado");
         estado = new ButtonGroup();
         estado.add(si);
         estado.add(no);
-
         afp.setBounds(140, 10, ANCHOC, ALTOC);
-        nombre.setBounds(142, 25, ANCHOC, ALTOC);
-        apellidos.setBounds(200, 25, ANCHOC, ALTOC);
-        edad.setBounds(140, 60, ANCHOC, ALTOC);
-        profesion.setBounds(140, 80, ANCHOC, ALTOC);
-        si.setBounds(200, 100, ANCHOC, ALTOC);
-        no.setBounds(225, 100, ANCHOC, ALTOC);
+        nombre.setBounds(25, 25, ANCHOC, ALTOC);
+        apellidos.setBounds(220, 25, ANCHOC, ALTOC);
+        edad.setBounds(140, 50, ANCHOC, ALTOC);
+        profesion.setBounds(35, 80, ANCHOC, ALTOC);
+        si.setBounds(200, 140, ANCHOC, ALTOC);
+        no.setBounds(225, 140, ANCHOC, ALTOC);
         resultados = new JTable();
         table.setBounds(10, 250, 500, 200);
         table.add(new JScrollPane(resultados));
@@ -127,15 +129,18 @@ public class Consulta extends JFrame {
                         return String.class;
                     case 2:
                         return String.class;
+                    case 3:
+                        return String.class;
                     default:
                         return Boolean.class;
                 }
             }
         };
-        tm.addColumn("Codigo");
-        tm.addColumn("Marca");
-        tm.addColumn("Stock");
-        tm.addColumn("Stock en Sucursal");
+        tm.addColumn("N° AFP");
+        tm.addColumn("Nombre");
+        tm.addColumn("Apellidos");
+        tm.addColumn("Profesion");
+        tm.addColumn("Estado");
 
         FiltroDao fd = new FiltroDao();
         ArrayList<Filtro> filtros = fd.readAll;
@@ -178,7 +183,7 @@ public class Consulta extends JFrame {
                     f.setEstado(false);
                 }
                 if (fd.update(f)) {
-                    JOptionPane.showMessageDialog(null, "Filtro Modificado con exito");
+                    JOptionPane.showMessageDialog(null, "Persona Modificada con exito");
                     limpiarCampos();
                     llenarTabla();
                 } else {
@@ -192,11 +197,11 @@ public class Consulta extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 FiltroDao fd = new FiltroDao();
                 if (fd.delete(afp.getText())) {
-                    JOptionPane.showMessageDialog(null, "Filtro Eliminado con exito");
+                    JOptionPane.showMessageDialog(null, "Persona Eliminada con exito");
                     limpiarCampos();
                     llenarTabla();
                 } else {
-                    JOptionPane.showMessageDialog(null, "Ocurrio un problema al momento de eliminar el filtro");
+                    JOptionPane.showMessageDialog(null, "Ocurrio un problema al momento de eliminar persona");
                 }
             }
         });

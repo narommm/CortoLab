@@ -27,10 +27,6 @@ public class Filtro {
         this.apellido = apellido;
     }
 
-    public Filtro(String text, String toString) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
     public String getAfp() {
         return afp;
     }
