@@ -12,11 +12,20 @@ package modelo;
 public class Filtro {
     private String afp;
     private String nombre;
+    private String apellido;
     private String profesion;
     private int edad;
     private boolean estado;
     
     public Filtro(){}
+
+    public String getApellido() {
+        return apellido;
+    }
+
+    public void setApellido(String apellido) {
+        this.apellido = apellido;
+    }
 
     public Filtro(String text, String toString) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

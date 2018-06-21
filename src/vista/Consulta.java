@@ -41,7 +41,7 @@ public class Consulta extends JFrame {
     public JRadioButton si;
     public JTable resultados;
     public JPanel table;
-    public JButton eliminar, insertar, limpiar, actualizar;
+    public JButton eliminar, insertar, vaciar, actualizar;
     private static final int ANCHOC = 130, ALTOC = 30;
     DefaultTableModel tm;
 
@@ -65,7 +65,7 @@ public class Consulta extends JFrame {
         container.add(insertar);
         container.add(actualizar);
         container.add(eliminar);
-        container.add(limpiar);
+        container.add(vaciar);
         container.add(table);
         setSize(600, 600);
         eventos();
@@ -93,7 +93,7 @@ public class Consulta extends JFrame {
         insertar = new JButton("Insertar");
         eliminar = new JButton("Eliminar");
         actualizar = new JButton("Actualizar");
-        limpiar = new JButton("Limpiar");
+        vaciar = new JButton("Vaciar");
 
         table = new JPanel();
         profesion.addItem("FRAM");
@@ -105,10 +105,12 @@ public class Consulta extends JFrame {
         estado.add(no);
 
         afp.setBounds(140, 10, ANCHOC, ALTOC);
-        profesion.setBounds(140, 60, ANCHOC, ALTOC);
-        apellidos.setBounds(140, 100, ANCHOC, ALTOC);
-        si.setBounds(140, 50, ANCHOC, ALTOC);
-        no.setBounds(210, 140, ANCHOC, ALTOC);
+        nombre.setBounds(142, 25, ANCHOC, ALTOC);
+        apellidos.setBounds(200, 25, ANCHOC, ALTOC);
+        edad.setBounds(140, 60, ANCHOC, ALTOC);
+        profesion.setBounds(140, 80, ANCHOC, ALTOC);
+        si.setBounds(200, 100, ANCHOC, ALTOC);
+        no.setBounds(225, 100, ANCHOC, ALTOC);
         resultados = new JTable();
         table.setBounds(10, 250, 500, 200);
         table.add(new JScrollPane(resultados));
@@ -138,7 +140,7 @@ public class Consulta extends JFrame {
         FiltroDao fd = new FiltroDao();
         ArrayList<Filtro> filtros = fd.readAll;
         for (Filtro fi : filtros) {
-            tm.addRow(new Object[]{fi.getCodigo(), fi.getMarca(), fi.getStock(), fi.isExistencia()});
+            tm.addRow(new Object[]{fi.getAfp(), fi.getNombre(), fi.getApellido(), fi.getApellido(), fi.getEdad(),fi.getProfesion()});
         }
         resultados.setModel(tm);
     }
@@ -151,7 +153,7 @@ public class Consulta extends JFrame {
                 Filtro f = new Filtro(afp.getText(), profesion.getSelectedItem().toString(), Integer
                         .parseInt(apellidos.getText()), true);
                 if (no.isSelected()) {
-                    f.setExistencia(false);
+                    f.setEstado(false);
                 }
                 if (fd.create(f)) {
                     JOptionPane.showMessageDialog(null, "Filtro registrado con exito");
@@ -173,7 +175,7 @@ public class Consulta extends JFrame {
                 .parseInt(apellidos.getText())
                 ,true);
             if (no.isSelected()) {
-                    f.setExistencia(false);
+                    f.setEstado(false);
                 }
                 if (fd.update(f)) {
                     JOptionPane.showMessageDialog(null, "Filtro Modificado con exito");
@@ -199,7 +201,7 @@ public class Consulta extends JFrame {
             }
         });
         
-        limpiar.addActionListener(new ActionListener() {
+        vaciar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 limpiarCampos();
@@ -209,8 +211,11 @@ public class Consulta extends JFrame {
 
     public void limpiarCampos() {
         afp.setText("");
-        profesion.setSelectedItem("FRAM");
+        profesion.setSelectedItem("");
         apellidos.setText("");
+        nombre.setText("");
+        edad.setText("");
+              
     }
 
     public static void main(String[] args) {
